@@ -1,0 +1,53 @@
+openapi: 3.0.3
+info:
+  title: T-Collab API
+  version: 1.0.0
+
+paths:
+  /texts:
+    get:
+      summary: Получить текст
+      tags:
+        - Projects
+      parameters:
+        - name: language
+          in: query
+          schema:
+            $ref: '#/components/schemas/Language'
+          required: true
+        - name: lengthType
+          in: query
+          schema:
+            $ref: '#/components/schemas/LengthType'
+          required: true
+      responses:
+        '200':
+          description: Текста для теста скорости печати
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Text'
+              
+components:
+  schemas:
+    Text:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 123
+        content:
+          type: string
+          example: 'Some text example'
+        language:
+          $ref: '#/components/schemas/Language'
+        lengthType: 
+          $ref: '#/components/schemas/LengthType'
+      
+    Language:
+      type: string
+      enum: [ru, en]
+      
+    LengthType:
+      type: string
+      enum: [short, medium, long]
