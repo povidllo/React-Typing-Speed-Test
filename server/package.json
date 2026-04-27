@@ -4,24 +4,29 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon src/server.ts",
+    "dev": "nodemon -r ts-node/register -r tsconfig-paths/register src/server.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "openapigen": "npx openapi-typescript openapi.yaml -o src/shared/generated/types.ts --indent 2"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module",
+  "type": "commonjs",
   "dependencies": {
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^25.6.0",
     "nodemon": "^3.1.14",
+    "openapi-typescript": "^7.13.0",
     "ts-node": "^10.9.2",
-    "typescript": "^6.0.2"
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.6.3"
   }
 }

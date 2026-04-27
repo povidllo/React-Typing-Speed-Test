@@ -1,0 +1,13 @@
+.gitignore
+.npmignore
+api.ts
+base.ts
+common.ts
+configuration.ts
+docs/Text.md
+docs/TextLanguage.md
+docs/TextLengthType.md
+docs/TextsApi.md
+docs/TextsGet404Response.md
+git_push.sh
+index.ts
