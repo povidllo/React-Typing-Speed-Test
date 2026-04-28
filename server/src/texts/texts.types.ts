@@ -2,8 +2,8 @@ import type { components } from "@/shared/generated/types.js";
 import type { paths } from "@/shared/generated/types.js";
 
 export type TextType = components["schemas"]["Text"];
-export type TextLanguage = components["schemas"]["Language"];
-export type TextLengthType = components["schemas"]["LengthType"];
+export type TextLanguage = components["schemas"]["TextLanguage"];
+export type TextLengthType = components["schemas"]["TextLengthType"];
 
 export type GetTextsQueries = paths["/texts"]["get"]["parameters"]["query"];
 export type GetTextsResponses = paths["/texts"]["get"]["responses"];

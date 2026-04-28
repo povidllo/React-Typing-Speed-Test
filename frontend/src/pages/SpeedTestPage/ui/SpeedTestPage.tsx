@@ -20,6 +20,7 @@ export const SpeedTestPage = () => {
           setIsErrorText(true);
           return;
         } else {
+          console.log(response.data);
           setCurrentText(response.data);
         }
       } catch (error) {
@@ -39,8 +40,12 @@ export const SpeedTestPage = () => {
   return (
     <main className="w-full h-screen">
       <div className="h-full w-full flex justify-center items-center ">
-        {currentText && <TextPanel content={currentText.content ?? ""} className="max-w-3xl text-3xl"/>}
-        {/* {currentText && <TextPanel content={"dsa"} className="max-w-3xl text-3xl"/>} */}
+        {currentText && (
+          <TextPanel
+            content={currentText.content ?? ""}
+            className="max-w-3xl text-3xl"
+          />
+        )}
       </div>
     </main>
   );

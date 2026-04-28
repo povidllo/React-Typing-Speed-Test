@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    container_name: typing_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: react_typing_speed_test
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./server/src/db/01_schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+      - ./server/src/db/02_initial_data.sql:/docker-entrypoint-initdb.d/02_initial_data.sql
+      - db_data:/var/lib/postgresql/data
+volumes:
+  db_data:

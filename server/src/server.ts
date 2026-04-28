@@ -1,8 +1,9 @@
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
+import "dotenv/config";
+
 import { textsRouter } from "@/texts";
-dotenv.config();
+import { pool } from "./db";
 
 const PORT = process.env.PORT || 3000;
 
