@@ -1,4 +1,4 @@
-import { useScreenResize } from "@/shared";
+import { useScreenResize } from "@/shared/hooks";
 import { useEffect, useState } from "react";
 
 interface CarretСoordinatesType {

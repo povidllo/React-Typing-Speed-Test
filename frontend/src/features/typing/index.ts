@@ -1,2 +1,2 @@
-export * from "./useCarretPosition";
-export * from "./useTypingEngine";
+export * from "./model/useCarretPosition";
+export * from "./model/useTypingEngine";
