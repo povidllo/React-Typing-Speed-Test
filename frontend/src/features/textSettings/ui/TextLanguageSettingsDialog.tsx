@@ -27,13 +27,19 @@ export const TextLanguageSettingsDialog = ({
         <ModalWindowContent className="flex flex-col p-4 w-full max-w-100">
           <Button
             className="w-full text-left px-2 py-1"
-            onClick={() => setTextLanguage("en")}
+            onClick={() => {
+              setTextLanguage("en");
+              setIsOpen(false);
+            }}
           >
             English
           </Button>
           <Button
             className="w-full text-left px-2 py-1"
-            onClick={() => setTextLanguage("ru")}
+            onClick={() => {
+              setTextLanguage("ru");
+              setIsOpen(false);
+            }}
           >
             Russian
           </Button>

@@ -1,6 +1,4 @@
-import {
-  type TextLengthType,
-} from "@/entity/Text";
+import { type TextLengthType } from "@/entity/Text";
 import { Button, ModalWindow, ModalWindowContent } from "@/shared/ui";
 import { useState } from "react";
 
@@ -27,19 +25,28 @@ export const TextLengthTypeSettingsDialog = ({
         <ModalWindowContent className="flex flex-col p-4 w-full max-w-100">
           <Button
             className="w-full text-left px-2 py-1"
-            onClick={() => setTextLengthType("short")}
+            onClick={() => {
+              setTextLengthType("short");
+              setIsOpen(false);
+            }}
           >
             Short
           </Button>
           <Button
             className="w-full text-left px-2 py-1"
-            onClick={() => setTextLengthType("medium")}
+            onClick={() => {
+              setTextLengthType("medium");
+              setIsOpen(false);
+            }}
           >
             Medium
           </Button>
           <Button
             className="w-full text-left px-2 py-1"
-            onClick={() => setTextLengthType("long")}
+            onClick={() => {
+              setTextLengthType("long");
+              setIsOpen(false);
+            }}
           >
             Long
           </Button>
