@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 interface UseTypingEngineProps {
   chars: string[];
@@ -9,6 +9,10 @@ export const useTypingEngine = ({ chars, content }: UseTypingEngineProps) => {
   const [enteredText, setEnteredText] = useState<string>("");
   const enteredTextIndex = enteredText.length;
   const contentLength = content.length;
+
+  useEffect(() => {
+    setEnteredText("");
+  }, [content]);
 
   const typeInputFunc = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;

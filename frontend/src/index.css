@@ -19,7 +19,7 @@
   }
 
   .caret {
-    @apply transition-transform duration-30;
+    @apply transition-all duration-[0.05s];
   }
 
   .caret.visible {
@@ -44,4 +44,11 @@
   100% {
     opacity: 0.3;
   }
+}
+
+:root {
+  --button-hover-bg-color: #d9c5c3;
+  --modal-background-color: color-mix(in oklab, var(--color-black) 40%, transparent);
+  --modal-foreground-color: white;
+
 }
