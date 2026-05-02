@@ -2,23 +2,30 @@ import clsx from "clsx";
 import { useEffect, useMemo, useRef } from "react";
 import { useState } from "react";
 import { Char } from "./Char";
-import { useCarretPosition, useTypingEngine } from "@/features/typing";
+import { useCarretPosition } from "@/features/typing";
 
 interface TextPanelProps {
   content: string;
   className?: string;
+  enteredText: string;
+  typeInputFunc: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  enteredTextIndex: number;
+  charState: (index: number) => string;
 }
 
-export const TextPanel = ({ content, className }: TextPanelProps) => {
+export const TextPanel = ({
+  content,
+  className,
+  enteredText,
+  typeInputFunc,
+  enteredTextIndex,
+  charState,
+}: TextPanelProps) => {
   const [inputFocused, setInputFocused] = useState<boolean>(true);
 
   const chars = useMemo(() => Array.from(content), [content]);
   const words = useMemo(
-    () =>
-      content
-        .split(/(\s)/)
-        // .slice(0, -1)
-        .map((word) => Array.from(word)),
+    () => content.split(/(\s)/).map((word) => Array.from(word)),
     [content],
   );
 
@@ -32,12 +39,6 @@ export const TextPanel = ({ content, className }: TextPanelProps) => {
       charRefs.current[i] = el;
     });
   }
-
-  const { enteredText, typeInputFunc, enteredTextIndex, charState } =
-    useTypingEngine({
-      chars,
-      content,
-    });
 
   const { carretСoordinates, carretSize } = useCarretPosition({
     charRefs,
@@ -72,9 +73,9 @@ export const TextPanel = ({ content, className }: TextPanelProps) => {
       }}
     >
       <div className="p-2 flex flex-wrap" ref={containerRef}>
-        {words.map((word) => {
+        {words.map((word, wordIndex) => {
           return (
-            <span>
+            <span key={wordIndex}>
               {word.map((char) => {
                 const currentIdx = globalIndex++;
                 return (
