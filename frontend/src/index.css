@@ -1,21 +1,30 @@
 @import "tailwindcss";
 
 @layer components {
+  body {
+    @apply bg-(--bg-color);
+    @apply text-(--sub-color);
+  }
+
+  button:hover {
+    @apply text-(--text-color);
+  }
+
   .character {
     @apply transition-colors duration-10;
   }
 
   .character.correct {
-    @apply text-black;
+    @apply text-(--text-color);
   }
 
   .character.incorrect {
-    @apply bg-amber-700;
-    /* @apply text-amber-800; */
+    @apply bg-(--error-color);
+    @apply text-(--text-color);
   }
 
   .character.idle {
-    @apply text-gray-500;
+    @apply text-(--sub-color);
   }
 
   .caret {
@@ -47,8 +56,35 @@
 }
 
 :root {
-  --button-hover-bg-color: #d9c5c3;
-  --modal-background-color: color-mix(in oklab, var(--color-black) 40%, transparent);
-  --modal-foreground-color: white;
+  /* solarized light */
+  --bg-color: #fdf6e3;
+  --main-color: #859900;
+  --caret-color: #dc322f;
+  --sub-color: #2aa198;
+  --text-color: #181819;
+  --error-color: #d33682;
+  --error-extra-color: #9b225c;
 
+  --button-hover-bg-color: #d9c5c3;
+  --modal-background-color: color-mix(
+    in oklab,
+    var(--color-black) 40%,
+    transparent
+  );
+}
+
+.dark {
+  --bg-color: #323437;
+  --main-color: #e2b714;
+  --caret-color: #e2b714;
+  --sub-color: #929599;
+  --text-color: #d1d0c5;
+  --error-color: #ca4754;
+
+  --button-hover-bg-color: #505050;
+  --modal-background-color: color-mix(
+    in oklab,
+    var(--color-black) 40%,
+    transparent
+  );
 }

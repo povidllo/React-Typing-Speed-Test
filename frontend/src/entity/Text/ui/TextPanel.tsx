@@ -100,7 +100,7 @@ export const TextPanel = ({
       />
       <div
         className={clsx(
-          `caret absolute top-0 left-0 w-px bg-black animate-caret`,
+          `caret absolute top-0 left-0 w-px bg-(--caret-color) animate-caret`,
           inputFocused ? "visible" : "invisible",
         )}
         style={{
