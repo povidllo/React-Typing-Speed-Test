@@ -11,20 +11,11 @@ import {
   useTypingEngine,
   useTypingTimer,
 } from "@/features/typing";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
+import { ThemeToggle } from "@/features/theme";
 
 export const SpeedTestPage = () => {
-  const { time, isRunning, tick } = useTypingTimer();
-
-  useEffect(() => {
-    if (!isRunning) return;
-
-    const interval = setInterval(() => {
-      tick();
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [isRunning]);
+  const { time, isRunning } = useTypingTimer();
 
   const { textLanguage, setTextLanguage, textLengthType, setTextLengthType } =
     useTextSettings();
@@ -43,6 +34,7 @@ export const SpeedTestPage = () => {
   const {
     enteredText,
     typeInputFunc,
+    enteredTextLength,
     enteredTextIndex,
     charState,
     isFinished,
@@ -67,11 +59,10 @@ export const SpeedTestPage = () => {
         {isFinished ? (
           <TypingResults
             timeSpent={timeSpent ?? 0}
-            textLength={currentText?.content?.length ?? 0}
+            enteredTextLength={enteredTextLength ?? 0}
             generalTyposCount={generalTyposCount}
           />
         ) : (
-          // <div> f</div>
           <>
             {isRunning ? (
               time
@@ -88,14 +79,16 @@ export const SpeedTestPage = () => {
               </div>
             )}
             {currentText && (
-              <TextPanel
-                content={currentText.content ?? ""}
-                className="max-w-3xl text-3xl"
-                enteredText={enteredText}
-                typeInputFunc={typeInputFunc}
-                enteredTextIndex={enteredTextIndex}
-                charState={charState}
-              />
+              <div className="p-3 max-w-3xl">
+                <TextPanel
+                  content={currentText.content ?? ""}
+                  className="text-3xl"
+                  enteredText={enteredText}
+                  typeInputFunc={typeInputFunc}
+                  enteredTextIndex={enteredTextIndex}
+                  charState={charState}
+                />
+              </div>
             )}
           </>
         )}

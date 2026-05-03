@@ -28,7 +28,7 @@ export const useTypingEngine = ({ chars, content }: UseTypingEngineProps) => {
 
   const [isFinished, setIsFinished] = useState<boolean>(false);
 
-  const { time, start, stop, isRunning, reset } = useTypingTimer();
+  const { time, isRunning, start, stop, tick, reset } = useTypingTimer();
 
   useEffect(() => {
     setEnteredText("");
@@ -36,15 +36,26 @@ export const useTypingEngine = ({ chars, content }: UseTypingEngineProps) => {
 
   useEffect(() => {
     if (
-      contentLength > 0 &&
-      enteredText.length === contentLength &&
-      currentTyposCount === 0
+      (contentLength > 0 &&
+        enteredText.length === contentLength &&
+        currentTyposCount === 0) ||
+      time === 0
     ) {
       setIsFinished(true);
       timeSpent.current = TIME - time;
       stop();
     }
-  }, [content, enteredText]);
+  }, [content, enteredText, time]);
+
+  useEffect(() => {
+    if (!isRunning) return;
+
+    const interval = setInterval(() => {
+      tick();
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [isRunning]);
 
   const typeInputFunc = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -89,6 +100,7 @@ export const useTypingEngine = ({ chars, content }: UseTypingEngineProps) => {
 
   return {
     enteredText,
+    enteredTextLength: enteredText.length,
     setEnteredText,
     typeInputFunc,
     charState,

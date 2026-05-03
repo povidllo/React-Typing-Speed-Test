@@ -10,7 +10,7 @@ export const ModalWindowContent = ({
 }: ModalWindowContentProps) => {
   return (
     <div
-      className={clsx(className, "bg-(--modal-foreground-color) rounded")}
+      className={clsx(className, "bg-(--bg-color) rounded")}
       onClick={(e) => e.stopPropagation()}
     >
       {children}
