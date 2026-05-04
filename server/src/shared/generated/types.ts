@@ -55,6 +55,122 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/auth/registration": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Регистрация в приложении */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["AuthBody"];
+                };
+            };
+            responses: {
+                /** @description Регистрация прошла успешно */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["AuthResponse"];
+                    };
+                };
+                /** @description Ошибка валидации данных */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["AuthError"];
+                    };
+                };
+                /** @description Пользователь уже существует */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["AuthError"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Вход в приложение */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["AuthBody"];
+                };
+            };
+            responses: {
+                /** @description Вход прошел успешно */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["AuthResponse"];
+                    };
+                };
+                /** @description Ошибка валидации запроса */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["AuthError"];
+                    };
+                };
+                /** @description Неверные учетные данные */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["AuthError"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -71,6 +187,20 @@ export interface components {
         TextLanguage: "ru" | "en";
         /** @enum {string} */
         TextLengthType: "short" | "medium" | "long";
+        AuthResponse: {
+            /** @example eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c */
+            token?: string;
+        };
+        AuthBody: {
+            /** @example login */
+            login: string;
+            /** @example qwerty */
+            password: string;
+        };
+        AuthError: {
+            /** @example Неверные данные учетной записи */
+            error?: string;
+        };
     };
     responses: never;
     parameters: never;
