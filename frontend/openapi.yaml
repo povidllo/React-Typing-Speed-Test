@@ -13,21 +13,21 @@ paths:
         - name: language
           in: query
           schema:
-            $ref: '#/components/schemas/TextLanguage'
+            $ref: "#/components/schemas/TextLanguage"
           required: true
         - name: lengthType
           in: query
           schema:
-            $ref: '#/components/schemas/TextLengthType'
+            $ref: "#/components/schemas/TextLengthType"
           required: true
       responses:
-        '200':
+        "200":
           description: Текста для теста скорости печати
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Text'
-        '404':
+                $ref: "#/components/schemas/Text"
+        "404":
           description: Ошибка получения текста
           content:
             application/json:
@@ -37,7 +37,74 @@ paths:
                   error:
                     type: string
                     example: Нет такого текста
-              
+  /auth/registration:
+    post:
+      summary: Регистрация в приложении
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthBody"
+
+      responses:
+        "201":
+          description: Регистрация прошла успешно
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+
+        "409":
+          description: Пользователь уже существует
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthError"
+
+        "400":
+          description: Ошибка валидации данных
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthError"
+
+  /auth/login:
+    post:
+      summary: Вход в приложение
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthBody"
+
+      responses:
+        "200":
+          description: Вход прошел успешно
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+
+        "401":
+          description: Неверные учетные данные
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthError"
+
+        "400":
+          description: Ошибка валидации запроса
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthError"
+
 components:
   schemas:
     Text:
@@ -48,16 +115,43 @@ components:
           example: 123
         content:
           type: string
-          example: 'Some text example'
+          example: "Some text example"
         language:
-          $ref: '#/components/schemas/TextLanguage'
-        lengthType: 
-          $ref: '#/components/schemas/TextLengthType'
-      
+          $ref: "#/components/schemas/TextLanguage"
+        lengthType:
+          $ref: "#/components/schemas/TextLengthType"
+
     TextLanguage:
       type: string
       enum: [ru, en]
-      
+
     TextLengthType:
       type: string
       enum: [short, medium, long]
+
+    AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+
+    AuthBody:
+      type: object
+      properties:
+        login:
+          type: string
+          example: login
+        password:
+          type: string
+          example: qwerty
+      required:
+        - login
+        - password
+
+    AuthError:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Неверные данные учетной записи"

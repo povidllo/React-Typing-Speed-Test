@@ -2,7 +2,8 @@ CREATE TYPE text_language AS ENUM ('ru', 'en');
 CREATE TYPE text_length_type AS ENUM ('short', 'medium', 'long');
 CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
-    user_name TEXT NOT NULL
+    user_login TEXT NOT NULL UNIQUE,
+    password_hash TEXT NOT NULL
 );
 CREATE TABLE texts (
     text_id SERIAL PRIMARY KEY,

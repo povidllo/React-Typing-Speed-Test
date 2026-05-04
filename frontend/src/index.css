@@ -3,7 +3,7 @@
 @layer components {
   body {
     @apply bg-(--bg-color);
-    @apply text-(--sub-color);
+    @apply text-(--text-color);
   }
 
   button:hover {
@@ -58,6 +58,7 @@
 :root {
   /* solarized light */
   --bg-color: #fdf6e3;
+  --color-sub-alt: #e2d8be;
   --main-color: #859900;
   --caret-color: #dc322f;
   --sub-color: #2aa198;
@@ -75,11 +76,13 @@
 
 .dark {
   --bg-color: #323437;
+  --color-sub-alt: #2c2e31;
   --main-color: #e2b714;
   --caret-color: #e2b714;
   --sub-color: #929599;
   --text-color: #d1d0c5;
   --error-color: #ca4754;
+  --error-extra-color: rgb(90, 20, 54);
 
   --button-hover-bg-color: #505050;
   --modal-background-color: color-mix(

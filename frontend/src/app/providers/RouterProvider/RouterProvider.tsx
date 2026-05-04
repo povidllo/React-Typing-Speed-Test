@@ -1,11 +1,15 @@
 import { AppLayout } from "@/app/layouts/AppLayout";
+import { AuthPage } from "@/pages/AuthPage";
 import { SpeedTestPage } from "@/pages/SpeedTestPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
-    children: [{ path: "/", element: <SpeedTestPage /> }],
+    children: [
+      { path: "/", element: <SpeedTestPage /> },
+      { path: "auth/", element: <AuthPage /> },
+    ],
   },
 ]);
 

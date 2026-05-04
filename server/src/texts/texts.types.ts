@@ -6,6 +6,7 @@ export type TextLanguage = components["schemas"]["TextLanguage"];
 export type TextLengthType = components["schemas"]["TextLengthType"];
 
 export type GetTextsQueries = paths["/texts"]["get"]["parameters"]["query"];
+
 export type GetTextsResponses = paths["/texts"]["get"]["responses"];
 export type GetText200Response =
   GetTextsResponses["200"]["content"]["application/json"];

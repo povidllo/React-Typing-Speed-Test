@@ -4,6 +4,10 @@ api.ts
 base.ts
 common.ts
 configuration.ts
+docs/AuthApi.md
+docs/AuthBody.md
+docs/AuthError.md
+docs/AuthResponse.md
 docs/Text.md
 docs/TextLanguage.md
 docs/TextLengthType.md
