@@ -13,5 +13,6 @@ docs/TextLanguage.md
 docs/TextLengthType.md
 docs/TextsApi.md
 docs/TextsGet404Response.md
+docs/User.md
 git_push.sh
 index.ts

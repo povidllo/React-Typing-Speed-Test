@@ -1,7 +1,9 @@
 import { components, paths } from "@/shared/generated/types";
+import { Request } from "express";
 
 export type AuthBodyType = components["schemas"]["AuthBody"];
 export type AuthResponseType = components["schemas"]["AuthResponse"];
+export type UserType = components["schemas"]["User"];
 
 export type PostRegisterResponses =
   paths["/auth/registration"]["post"]["responses"];
@@ -28,11 +30,22 @@ export type PostLoginResponsesType =
   | PostLogin400Response
   | PostLogin401Response;
 
-export type UserPublic = {
+export type GetMeResponses = paths["/auth/me"]["get"]["responses"];
+export type GetMe200Response =
+  GetMeResponses["200"]["content"]["application/json"];
+export type GetMe401Response =
+  GetMeResponses["401"]["content"]["application/json"];
+export type GetMeResponsesType = GetMe200Response | GetMe401Response;
+
+export type UserPublicDB = {
   userId: string;
   userLogin: string;
 };
 
-export type UserAuth = UserPublic & {
+export type UserAuthDB = UserPublicDB & {
   passwordHash: string;
+};
+
+export type AuthRequest = Request & {
+  user?: UserPublicDB;
 };

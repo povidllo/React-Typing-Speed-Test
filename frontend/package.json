@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "openapigen": "npx openapi-generator-cli generate -i openapi.yaml -g typescript-axios -o src/shared/api/generated"
+    "openapigen": "npx openapi-generator-cli generate -i ../openapi.yaml -g typescript-axios -o src/shared/api/generated"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.2",
