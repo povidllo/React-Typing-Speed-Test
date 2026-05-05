@@ -1,6 +1,6 @@
 import { useLogin } from "@/features/auth";
 import { Button } from "@/shared/ui";
-import { Loader, LogIn, UserRoundPlus } from "lucide-react";
+import { Loader, LogIn } from "lucide-react";
 import { useForm } from "react-hook-form";
 
 interface FormType {

@@ -1,7 +1,6 @@
 import { useRegistration } from "@/features/auth";
 import { Button } from "@/shared/ui";
 import { Loader, UserRoundPlus } from "lucide-react";
-import { useRef } from "react";
 import { useForm } from "react-hook-form";
 
 interface FormType {

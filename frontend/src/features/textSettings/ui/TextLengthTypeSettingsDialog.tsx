@@ -9,7 +9,6 @@ interface TextLengthSettingsDialogProps {
 
 export const TextLengthTypeSettingsDialog = ({
   setTextLengthType,
-  textLengthType,
 }: TextLengthSettingsDialogProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 

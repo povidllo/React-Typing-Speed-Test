@@ -1,7 +1,5 @@
 export type {
   AuthBody,
   AuthResponse,
-  AuthRegistrationPost400Response,
-  AuthRegistrationPost409Response,
-  AuthLoginPost400Response,
+  AuthError,
 } from "@/shared/api/generated/api";

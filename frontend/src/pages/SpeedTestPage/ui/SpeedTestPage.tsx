@@ -12,7 +12,6 @@ import {
   useTypingTimer,
 } from "@/features/typing";
 import { useMemo } from "react";
-import { ThemeToggle } from "@/features/theme";
 
 export const SpeedTestPage = () => {
   const { time, isRunning } = useTypingTimer();

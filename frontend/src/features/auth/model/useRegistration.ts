@@ -1,10 +1,6 @@
 import { authApi } from "@/shared/api";
 import { useMutation } from "@tanstack/react-query";
-import type {
-  AuthRegistrationPost400Response,
-  AuthRegistrationPost409Response,
-  AuthResponse,
-} from "./types";
+import type { AuthError, AuthResponse } from "./types";
 import { useNavigate } from "react-router-dom";
 import type { AxiosError } from "axios";
 
@@ -18,9 +14,7 @@ export const useRegistration = () => {
 
   return useMutation<
     AuthResponse,
-    AxiosError<
-      AuthRegistrationPost400Response | AuthRegistrationPost409Response
-    >,
+    AxiosError<AuthError>,
     UseRegistrationMutationProps
   >({
     mutationFn: async ({ login, password }) => {
