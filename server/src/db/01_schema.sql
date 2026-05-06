@@ -15,7 +15,9 @@ CREATE TABLE results (
     result_id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users(user_id),
     text_id INT REFERENCES texts(text_id),
-    time_seconds INT NOT NULL,
-    words_per_minute INT NOT NULL,
-    accuracy INT NOT NULL
+    cpm INT NOT NULL,
+    wpm INT NOT NULL,
+    accuracy INT NOT NULL,
+    errors INT NOT NULL,
+    type_time INT NOT NULL
 );

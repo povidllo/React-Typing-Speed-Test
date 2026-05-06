@@ -38,7 +38,7 @@ export type GetMe401Response =
 export type GetMeResponsesType = GetMe200Response | GetMe401Response;
 
 export type UserPublicDB = {
-  userId: string;
+  userId: number;
   userLogin: string;
 };
 
@@ -46,6 +46,11 @@ export type UserAuthDB = UserPublicDB & {
   passwordHash: string;
 };
 
-export type AuthRequest = Request & {
+export interface AuthRequest<
+  P = {},
+  ResBody = any,
+  ReqBody = any,
+  ReqQuery = any
+> extends Request<P, ResBody, ReqBody, ReqQuery> {
   user?: UserPublicDB;
-};
+}

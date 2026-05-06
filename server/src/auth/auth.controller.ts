@@ -2,7 +2,6 @@ import { getUserByLogin, setNewUser } from "./auth.service";
 import {
   AuthBodyType,
   AuthRequest,
-  GetMeResponses,
   GetMeResponsesType,
   PostLoginResponsesType,
   PostRegisterResponsesType,
@@ -91,5 +90,7 @@ export const authLogin = async (
 export const authMe = (req: AuthRequest, res: Response<GetMeResponsesType>) => {
   const user: UserPublicDB = req.user!;
 
-  return res.status(200).json({ login: user.userLogin });
+  return res
+    .status(200)
+    .json({ userLogin: user.userLogin, userId: user.userId });
 };
