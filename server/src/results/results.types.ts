@@ -11,6 +11,7 @@ export type GetResults401Response =
 export type GetResultsResponsesType =
   | GetResults200Response
   | GetResults401Response;
+export type GetResultsQueries = paths["/results"]["get"]["parameters"]["query"];
 
 export type PostResultsResponses = paths["/results"]["post"]["responses"];
 export type PostResults201Response =

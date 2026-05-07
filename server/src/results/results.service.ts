@@ -6,6 +6,8 @@ type ResponseType = Omit<UserResults & TextType, "text">;
 
 export const getUserResults = async (
   userId: number,
+  length: number,
+  offset: number,
 ): Promise<UserResults[]> => {
   const result = await pool.query<ResponseType>(
     `SELECT 
@@ -21,8 +23,11 @@ export const getUserResults = async (
       t.text_length_type as "lengthType"
    FROM results r 
    JOIN texts t ON r.text_id = t.text_id  
-   WHERE user_id=$1`,
-    [userId],
+   WHERE user_id=$1
+   ORDER BY r.result_id DESC
+   LIMIT $2
+   OFFSET $3`,
+    [userId, length, offset],
   );
 
   const results: UserResults[] = [];
@@ -50,7 +55,10 @@ export const getUserResults = async (
   return results;
 };
 
-export const setUserResults = async (results: UserResultsBody) => {
+export const setUserResults = async (
+  userId: number,
+  results: UserResultsBody,
+) => {
   console.log("set");
 
   const response = await pool.query(
@@ -59,7 +67,7 @@ export const setUserResults = async (results: UserResultsBody) => {
      VALUES ($1, $2, $3, $4, $5, $6, $7)
      RETURNING *;`,
     [
-      results.userId,
+      userId,
       results.textId,
       results.cpm,
       results.wpm,
@@ -72,7 +80,7 @@ export const setUserResults = async (results: UserResultsBody) => {
   console.log("set2");
   const resultsId: number = response.rows[0].result_id;
 
-  const userResults = getUserResultsWithResultId(results.userId, resultsId);
+  const userResults = getUserResultsWithResultId(userId, resultsId);
 
   return userResults;
 };

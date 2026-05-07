@@ -12,7 +12,6 @@ export const authMiddleware = (
   const authHeader = req.get("Authorization");
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    console.log("не начинается");
     return res.status(401).json({ error: "Unauthorized" });
   }
 

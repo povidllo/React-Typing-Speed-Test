@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import {
+  GetResultsQueries,
   GetResultsResponsesType,
   PostResultsResponsesType,
   UserResults,
@@ -9,13 +10,19 @@ import { AuthRequest } from "@/auth/auth.types";
 import { getUserResults, setUserResults } from "./results.service";
 
 export const getResults = async (
-  req: AuthRequest,
+  req: AuthRequest<{}, any, any, GetResultsQueries>,
   res: Response<GetResultsResponsesType>,
 ) => {
   const user = req.user!;
-
+  const length = Number(req.query?.length ?? 10);
+  const offset = Number(req.query?.offset ?? 0);
   try {
-    const result: UserResults[] = await getUserResults(user.userId);
+    const result: UserResults[] = await getUserResults(
+      user.userId,
+      length,
+      offset,
+    );
+    console.log(result);
 
     return res.status(200).json(result);
   } catch (err) {
@@ -32,7 +39,10 @@ export const postResults = async (
   console.log("post");
   try {
     console.log(userResults);
-    const returnedUserResults: UserResults = await setUserResults(userResults);
+    const returnedUserResults: UserResults = await setUserResults(
+      user.userId,
+      userResults,
+    );
 
     return res.status(201).json(returnedUserResults);
   } catch (err) {

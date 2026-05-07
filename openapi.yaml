@@ -134,6 +134,17 @@ paths:
         - Results
       security:
         - bearerAuth: []
+      parameters:
+        - name: length
+          in: query
+          schema:
+            type: number
+            example: 10
+        - name: offset
+          in: query
+          schema:
+            type: number
+            example: 20
       responses:
         "200":
           description: Успешный ответ
@@ -286,9 +297,6 @@ components:
     UserResultsBody:
       type: object
       properties:
-        userId:
-          type: number
-          example: 234
         textId:
           type: number
           example: 234
@@ -316,7 +324,6 @@ components:
         - errorы
         - time
         - errors
-        - userId
         - textId
           
           

@@ -226,7 +226,10 @@ export interface paths {
         /** Получить результаты пользователя */
         get: {
             parameters: {
-                query?: never;
+                query?: {
+                    length?: number;
+                    offset?: number;
+                };
                 header?: never;
                 path?: never;
                 cookie?: never;
@@ -348,8 +351,6 @@ export interface components {
             time: number;
         };
         UserResultsBody: {
-            /** @example 234 */
-            userId: number;
             /** @example 234 */
             textId: number;
             /** @example 530 */

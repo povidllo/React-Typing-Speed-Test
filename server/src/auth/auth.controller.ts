@@ -87,10 +87,24 @@ export const authLogin = async (
   }
 };
 
-export const authMe = (req: AuthRequest, res: Response<GetMeResponsesType>) => {
+export const authMe = async (
+  req: AuthRequest,
+  res: Response<GetMeResponsesType>,
+) => {
   const user: UserPublicDB = req.user!;
 
-  return res
-    .status(200)
-    .json({ userLogin: user.userLogin, userId: user.userId });
+try {
+    const userInfo = await getUserByLogin(user.userLogin);
+
+    if (!userInfo) {
+      return res.status(401).json({ error: "Неверные данные учетной записи" });
+    }
+
+    return res
+      .status(200)
+      .json({ userLogin: user.userLogin, userId: user.userId });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: "Внутренняя ошибка сервера" });
+  }
 };
