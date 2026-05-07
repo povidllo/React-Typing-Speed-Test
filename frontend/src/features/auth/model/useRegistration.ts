@@ -1,8 +1,9 @@
 import { authApi } from "@/shared/api";
-import { useMutation } from "@tanstack/react-query";
-import type { AuthError, AuthResponse } from "./types";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { ErrorResponse, AuthResponse } from "./types";
 import { useNavigate } from "react-router-dom";
 import type { AxiosError } from "axios";
+import { getAuthMeQueryKeys } from "@/entity/User/lib/getAuthMeQueryKeys";
 
 interface UseRegistrationMutationProps {
   login: string;
@@ -11,10 +12,11 @@ interface UseRegistrationMutationProps {
 
 export const useRegistration = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   return useMutation<
     AuthResponse,
-    AxiosError<AuthError>,
+    AxiosError<ErrorResponse>,
     UseRegistrationMutationProps
   >({
     mutationFn: async ({ login, password }) => {
@@ -28,6 +30,8 @@ export const useRegistration = () => {
 
     onSuccess: (data) => {
       localStorage.setItem("token", data.token!);
+      queryClient.invalidateQueries({ queryKey: getAuthMeQueryKeys() });
+
       navigate("/");
     },
 

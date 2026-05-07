@@ -6,12 +6,16 @@ common.ts
 configuration.ts
 docs/AuthApi.md
 docs/AuthBody.md
-docs/AuthError.md
 docs/AuthResponse.md
+docs/ErrorResponse.md
+docs/ResultsApi.md
 docs/Text.md
 docs/TextLanguage.md
 docs/TextLengthType.md
 docs/TextsApi.md
 docs/TextsGet404Response.md
+docs/User.md
+docs/UserResults.md
+docs/UserResultsBody.md
 git_push.sh
 index.ts

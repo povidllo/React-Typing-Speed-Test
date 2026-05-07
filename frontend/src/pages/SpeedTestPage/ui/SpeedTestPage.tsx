@@ -1,5 +1,5 @@
 import { TextPanel, useGetTexts } from "@/entity/Text";
-import { RotateCw } from "lucide-react";
+import { Loader, RotateCw } from "lucide-react";
 import { Button } from "@/shared/ui";
 import {
   TextLanguageSettingsDialog,
@@ -10,14 +10,18 @@ import {
   TypingResults,
   useTypingEngine,
   useTypingTimer,
+  useUserResults,
 } from "@/features/typing";
 import { useMemo } from "react";
+import { useAuthMe } from "@/entity/User";
 
 export const SpeedTestPage = () => {
   const { time, isRunning } = useTypingTimer();
+  const { data: user } = useAuthMe();
 
   const { textLanguage, setTextLanguage, textLengthType, setTextLengthType } =
     useTextSettings();
+
   const {
     data: currentText,
     isLoading: isLoadingText,
@@ -44,22 +48,40 @@ export const SpeedTestPage = () => {
     chars,
     content: currentText?.content ?? "",
   });
+  const { accuracy, cpm, wpm } = useUserResults({
+    enteredTextLength: enteredTextLength ?? 0,
+    generalTyposCount: generalTyposCount,
+    timeSpent: timeSpent ?? 0,
+    isFinished: isFinished,
+    textId: currentText?.textId,
+    isAuthorized: !!user,
+  });
 
   if (isLoadingText) {
-    return <div>loading...</div>;
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        <Loader className="animate-spin" size={"50px"} />
+      </div>
+    );
   }
   if (isErrorText) {
-    return <div>ERROR</div>;
+    return (
+      <div className="w-full h-full text-7xl flex items-center justify-center">
+        Error
+      </div>
+    );
   }
 
   return (
-    <main className="w-full h-screen">
+    <div className="w-full h-full">
       <div className="h-full w-full flex gap-2 flex-col justify-center items-center ">
         {isFinished ? (
           <TypingResults
             timeSpent={timeSpent ?? 0}
-            enteredTextLength={enteredTextLength ?? 0}
             generalTyposCount={generalTyposCount}
+            accuracy={accuracy}
+            cpm={cpm}
+            wpm={wpm}
           />
         ) : (
           <>
@@ -102,6 +124,6 @@ export const SpeedTestPage = () => {
           <RotateCw />
         </Button>
       </div>
-    </main>
+    </div>
   );
 };

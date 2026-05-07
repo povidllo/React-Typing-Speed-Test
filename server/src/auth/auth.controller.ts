@@ -1,10 +1,12 @@
 import { getUserByLogin, setNewUser } from "./auth.service";
 import {
   AuthBodyType,
+  AuthRequest,
+  GetMeResponsesType,
   PostLoginResponsesType,
   PostRegisterResponsesType,
-  UserAuth,
-  UserPublic,
+  UserAuthDB,
+  UserPublicDB,
 } from "./auth.types";
 import type { Request, Response } from "express";
 import bcrypt from "bcrypt";
@@ -19,7 +21,7 @@ export const authRegister = async (
   console.log(login, password);
 
   try {
-    const user: UserAuth | null = await getUserByLogin(login);
+    const user: UserAuthDB | null = await getUserByLogin(login);
 
     if (user !== null) {
       console.log("Пользователь уже существует");
@@ -31,7 +33,7 @@ export const authRegister = async (
     const passwordHash = await bcrypt.hash(password, 10);
     console.log(passwordHash);
 
-    const newUser: UserPublic = await setNewUser(login, passwordHash);
+    const newUser: UserPublicDB = await setNewUser(login, passwordHash);
 
     const token = createJWT(newUser);
 
@@ -53,7 +55,7 @@ export const authLogin = async (
   const { login, password } = req.body;
 
   try {
-    const user: UserAuth | null = await getUserByLogin(login);
+    const user: UserAuthDB | null = await getUserByLogin(login);
 
     if (!user) {
       return res.status(401).json({
@@ -82,5 +84,27 @@ export const authLogin = async (
     return res.status(500).json({
       error: "Внутренняя ошибка сервера",
     });
+  }
+};
+
+export const authMe = async (
+  req: AuthRequest,
+  res: Response<GetMeResponsesType>,
+) => {
+  const user: UserPublicDB = req.user!;
+
+try {
+    const userInfo = await getUserByLogin(user.userLogin);
+
+    if (!userInfo) {
+      return res.status(401).json({ error: "Неверные данные учетной записи" });
+    }
+
+    return res
+      .status(200)
+      .json({ userLogin: user.userLogin, userId: user.userId });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: "Внутренняя ошибка сервера" });
   }
 };

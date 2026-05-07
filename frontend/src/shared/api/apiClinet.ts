@@ -1,4 +1,4 @@
-import { AuthApi, Configuration, TextsApi } from "./generated";
+import { AuthApi, Configuration, ResultsApi, TextsApi } from "./generated";
 
 const SERVER_PORT = 3000;
 
@@ -9,3 +9,4 @@ const config: Configuration = new Configuration({
 
 export const textsApi: TextsApi = new TextsApi(config);
 export const authApi: AuthApi = new AuthApi(config);
+export const resultsApi: ResultsApi = new ResultsApi(config);

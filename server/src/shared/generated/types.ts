@@ -93,7 +93,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["AuthError"];
+                        "application/json": components["schemas"]["ErrorResponse"];
                     };
                 };
                 /** @description Пользователь уже существует */
@@ -102,7 +102,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["AuthError"];
+                        "application/json": components["schemas"]["ErrorResponse"];
                     };
                 };
             };
@@ -151,7 +151,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["AuthError"];
+                        "application/json": components["schemas"]["ErrorResponse"];
                     };
                 };
                 /** @description Неверные учетные данные */
@@ -160,7 +160,133 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["AuthError"];
+                        "application/json": components["schemas"]["ErrorResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Получить данные пользователя */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Успешный ответ */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["User"];
+                    };
+                };
+                /** @description Не авторизован */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ErrorResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/results": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Получить результаты пользователя */
+        get: {
+            parameters: {
+                query?: {
+                    length?: number;
+                    offset?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Успешный ответ */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["UserResults"][];
+                    };
+                };
+                /** @description Не авторизован */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ErrorResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Добавить результаты для пользователя */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["UserResultsBody"];
+                };
+            };
+            responses: {
+                /** @description Результат создан */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["UserResults"];
+                    };
+                };
+                /** @description Не авторизован */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ErrorResponse"];
                     };
                 };
             };
@@ -177,11 +303,11 @@ export interface components {
     schemas: {
         Text: {
             /** @example 123 */
-            id?: string;
+            textId: number;
             /** @example Some text example */
-            content?: string;
-            language?: components["schemas"]["TextLanguage"];
-            lengthType?: components["schemas"]["TextLengthType"];
+            content: string;
+            language: components["schemas"]["TextLanguage"];
+            lengthType: components["schemas"]["TextLengthType"];
         };
         /** @enum {string} */
         TextLanguage: "ru" | "en";
@@ -197,9 +323,46 @@ export interface components {
             /** @example qwerty */
             password: string;
         };
-        AuthError: {
+        ErrorResponse: {
             /** @example Неверные данные учетной записи */
             error?: string;
+        };
+        User: {
+            /** @example id */
+            userId: number;
+            /** @example login */
+            userLogin: string;
+        };
+        UserResults: {
+            /** @example 213 */
+            resultId: number;
+            /** @example 234 */
+            userId: number;
+            text: components["schemas"]["Text"];
+            /** @example 530 */
+            cpm: number;
+            /** @example 74 */
+            wpm: number;
+            /** @example 98 */
+            accuracy: number;
+            /** @example 98 */
+            errors: number;
+            /** @example 37 */
+            time: number;
+        };
+        UserResultsBody: {
+            /** @example 234 */
+            textId: number;
+            /** @example 530 */
+            cpm: number;
+            /** @example 74 */
+            wpm: number;
+            /** @example 98 */
+            accuracy: number;
+            /** @example 98 */
+            errors: number;
+            /** @example 37 */
+            time: number;
         };
     };
     responses: never;

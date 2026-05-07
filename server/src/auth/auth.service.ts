@@ -1,10 +1,10 @@
 import { pool } from "@/db";
-import { UserAuth, UserPublic } from "./auth.types";
+import { UserAuthDB, UserPublicDB } from "./auth.types";
 
 export const getUserByLogin = async (
   login: string,
-): Promise<UserAuth | null> => {
-  const result = await pool.query<UserAuth>(
+): Promise<UserAuthDB | null> => {
+  const result = await pool.query<UserAuthDB>(
     `SELECT 
       user_id AS "userId",
       user_login AS "userLogin",
@@ -20,8 +20,8 @@ export const getUserByLogin = async (
 export const setNewUser = async (
   login: string,
   password_hash: string,
-): Promise<UserPublic> => {
-  const result = await pool.query<UserPublic>(
+): Promise<UserPublicDB> => {
+  const result = await pool.query<UserPublicDB>(
     `INSERT INTO users (user_login, password_hash)
      VALUES ($1, $2)
      RETURNING 

@@ -1,0 +1,334 @@
+openapi: 3.0.3
+info:
+  title: SpeedTestApi
+  version: 1.0.0
+
+paths:
+  /texts:
+    get:
+      summary: Получить текст
+      tags:
+        - Texts
+      parameters:
+        - name: language
+          in: query
+          schema:
+            $ref: "#/components/schemas/TextLanguage"
+          required: true
+        - name: lengthType
+          in: query
+          schema:
+            $ref: "#/components/schemas/TextLengthType"
+          required: true
+      responses:
+        "200":
+          description: Текста для теста скорости печати
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Text"
+        "404":
+          description: Ошибка получения текста
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Нет такого текста
+                    
+  /auth/registration:
+    post:
+      summary: Регистрация в приложении
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthBody"
+
+      responses:
+        "201":
+          description: Регистрация прошла успешно
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+
+        "409":
+          description: Пользователь уже существует
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+        "400":
+          description: Ошибка валидации данных
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/login:
+    post:
+      summary: Вход в приложение
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthBody"
+
+      responses:
+        "200":
+          description: Вход прошел успешно
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+
+        "401":
+          description: Неверные учетные данные
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+        "400":
+          description: Ошибка валидации запроса
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  
+  /auth/me:
+    get:
+      summary: Получить данные пользователя
+      tags:
+        - Auth
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    
+  /results:
+    get:
+      summary: Получить результаты пользователя
+      tags:
+        - Results
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: length
+          in: query
+          schema:
+            type: number
+            example: 10
+        - name: offset
+          in: query
+          schema:
+            type: number
+            example: 20
+      responses:
+        "200":
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserResults"
+        "401":
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+                
+    post:
+      summary: Добавить результаты для пользователя
+      tags:
+        - Results
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserResultsBody"
+      responses:
+        "201":
+          description: Результат создан
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResults"
+                
+        "401":
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+  schemas:
+    Text:
+      type: object
+      properties:
+        textId:
+          type: number
+          example: 123
+        content:
+          type: string
+          example: "Some text example"
+        language:
+          $ref: "#/components/schemas/TextLanguage"
+        lengthType:
+          $ref: "#/components/schemas/TextLengthType"
+      required:
+        - textId
+        - content
+        - language
+        - lengthType
+
+    TextLanguage:
+      type: string
+      enum: [ru, en]
+
+    TextLengthType:
+      type: string
+      enum: [short, medium, long]
+
+    AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+
+    AuthBody:
+      type: object
+      properties:
+        login:
+          type: string
+          example: login
+        password:
+          type: string
+          example: qwerty
+      required:
+        - login
+        - password
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Неверные данные учетной записи"
+    
+    User:
+      type: object
+      properties:
+        userId:
+          type: number
+          example: id
+        userLogin:
+          type: string
+          example: 'login'
+      required:
+        - userLogin
+        - userId
+    
+    UserResults:
+      type: object
+      properties:
+        resultId:
+          type: number
+          example: 213
+        userId:
+          type: number
+          example: 234
+        text:
+          $ref: "#/components/schemas/Text"
+        cpm:
+          type: number
+          example: 530
+        wpm:
+          type: number
+          example: 74
+        accuracy:
+          type: number
+          example: 98
+        errors: 
+          type: number
+          example: 98
+        time:
+          type: number
+          example: 37
+      required:
+        - resultId
+        - text
+        - cpm
+        - wpm
+        - accuracy
+        - errorы
+        - time
+        - errors
+        - userId
+    
+    UserResultsBody:
+      type: object
+      properties:
+        textId:
+          type: number
+          example: 234
+        cpm:
+          type: number
+          example: 530
+        wpm:
+          type: number
+          example: 74
+        accuracy:
+          type: number
+          example: 98
+        errors: 
+          type: number
+          example: 98
+        time:
+          type: number
+          example: 37
+      required:
+        - resultId
+        - text
+        - cpm
+        - wpm
+        - accuracy
+        - errorы
+        - time
+        - errors
+        - textId
+          
+          
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

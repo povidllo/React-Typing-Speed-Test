@@ -12,7 +12,7 @@ export const getText = async ({
 }: GetTextProps): Promise<TextType | null> => {
   const result = await pool.query<TextType>(
     `SELECT 
-      text_id as id,
+      text_id as "textId",
       text_content as content,
       text_language as language,
       text_length_type as "lengthType"

@@ -1,46 +1,34 @@
 interface TypingResultsProps {
+  accuracy: number;
+  cpm: number;
+  wpm: number;
   generalTyposCount: number;
-  enteredTextLength: number;
   timeSpent: number;
 }
 
 export const TypingResults = ({
+  accuracy,
+  cpm,
+  wpm,
   generalTyposCount,
-  enteredTextLength,
   timeSpent,
 }: TypingResultsProps) => {
-  const cpm = timeSpent > 0 ? (enteredTextLength / timeSpent) * 60 : 0;
-
-  const accuracy =
-    enteredTextLength > 0
-      ? Math.max(
-          0,
-          ((enteredTextLength - generalTyposCount) / enteredTextLength) * 100,
-        )
-      : 0;
-
-  const wpm = timeSpent > 0 ? (enteredTextLength * 60) / (timeSpent * 5) : 0;
-
   return (
     <div className="flex flex-row gap-8">
       <div className="flex flex-col flex-1 gap-2 text-3xl justify-between">
         <div className="flex justify-between gap-1">
           <div className="text-(--sub-color)">CPM:</div>{" "}
-          <div className="text-(--main-color) font-bold">{Math.round(cpm)}</div>
+          <div className="text-(--main-color) font-bold">{cpm}</div>
         </div>
         <div className="flex justify-between">
           <span className="text-(--sub-color)">WPM:</span>{" "}
-          <span className="text-(--main-color) font-bold">
-            {Math.round(wpm)}
-          </span>
+          <span className="text-(--main-color) font-bold">{wpm}</span>
         </div>
       </div>
       <div className="flex flex-col flex-1 gap-2 text-xl">
         <div>
           accuracy:{" "}
-          <span className="text-(--main-color) text-2xl">
-            {Math.round(accuracy)}%
-          </span>
+          <span className="text-(--main-color) text-2xl">{accuracy}%</span>
         </div>
         <div>
           errors:{" "}
