@@ -1,21 +1,19 @@
-# User
+# ErrorResponse
 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**userId** | **number** |  | [default to undefined]
-**userLogin** | **string** |  | [default to undefined]
+**error** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
 ```typescript
-import { User } from './api';
+import { ErrorResponse } from './api';
 
-const instance: User = {
-    userId,
-    userLogin,
+const instance: ErrorResponse = {
+    error,
 };
 ```
 

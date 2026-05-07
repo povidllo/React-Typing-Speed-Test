@@ -27,17 +27,17 @@ export interface AuthBody {
     'login': string;
     'password': string;
 }
-export interface AuthError {
-    'error'?: string;
-}
 export interface AuthResponse {
     'token'?: string;
 }
+export interface ErrorResponse {
+    'error'?: string;
+}
 export interface Text {
-    'id'?: string;
-    'content'?: string;
-    'language'?: TextLanguage;
-    'lengthType'?: TextLengthType;
+    'textId': number;
+    'content': string;
+    'language': TextLanguage;
+    'lengthType': TextLengthType;
 }
 
 
@@ -64,7 +64,26 @@ export interface TextsGet404Response {
     'error'?: string;
 }
 export interface User {
-    'login': string;
+    'userId': number;
+    'userLogin': string;
+}
+export interface UserResults {
+    'resultId': number;
+    'userId': number;
+    'text': Text;
+    'cpm': number;
+    'wpm': number;
+    'accuracy': number;
+    'errors': number;
+    'time': number;
+}
+export interface UserResultsBody {
+    'textId': number;
+    'cpm': number;
+    'wpm': number;
+    'accuracy': number;
+    'errors': number;
+    'time': number;
 }
 
 /**
@@ -298,6 +317,193 @@ export class AuthApi extends BaseAPI {
      */
     public authRegistrationPost(authBody: AuthBody, options?: RawAxiosRequestConfig) {
         return AuthApiFp(this.configuration).authRegistrationPost(authBody, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * ResultsApi - axios parameter creator
+ */
+export const ResultsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Получить результаты пользователя
+         * @param {number} [length] 
+         * @param {number} [offset] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        resultsGet: async (length?: number, offset?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/results`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (length !== undefined) {
+                localVarQueryParameter['length'] = length;
+            }
+
+            if (offset !== undefined) {
+                localVarQueryParameter['offset'] = offset;
+            }
+
+            localVarHeaderParameter['Accept'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Добавить результаты для пользователя
+         * @param {UserResultsBody} userResultsBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        resultsPost: async (userResultsBody: UserResultsBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'userResultsBody' is not null or undefined
+            assertParamExists('resultsPost', 'userResultsBody', userResultsBody)
+            const localVarPath = `/results`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Accept'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(userResultsBody, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * ResultsApi - functional programming interface
+ */
+export const ResultsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ResultsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Получить результаты пользователя
+         * @param {number} [length] 
+         * @param {number} [offset] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async resultsGet(length?: number, offset?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<UserResults>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.resultsGet(length, offset, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ResultsApi.resultsGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Добавить результаты для пользователя
+         * @param {UserResultsBody} userResultsBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async resultsPost(userResultsBody: UserResultsBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserResults>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.resultsPost(userResultsBody, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ResultsApi.resultsPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * ResultsApi - factory interface
+ */
+export const ResultsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ResultsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Получить результаты пользователя
+         * @param {number} [length] 
+         * @param {number} [offset] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        resultsGet(length?: number, offset?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<UserResults>> {
+            return localVarFp.resultsGet(length, offset, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Добавить результаты для пользователя
+         * @param {UserResultsBody} userResultsBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        resultsPost(userResultsBody: UserResultsBody, options?: RawAxiosRequestConfig): AxiosPromise<UserResults> {
+            return localVarFp.resultsPost(userResultsBody, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * ResultsApi - object-oriented interface
+ */
+export class ResultsApi extends BaseAPI {
+    /**
+     * 
+     * @summary Получить результаты пользователя
+     * @param {number} [length] 
+     * @param {number} [offset] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public resultsGet(length?: number, offset?: number, options?: RawAxiosRequestConfig) {
+        return ResultsApiFp(this.configuration).resultsGet(length, offset, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Добавить результаты для пользователя
+     * @param {UserResultsBody} userResultsBody 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public resultsPost(userResultsBody: UserResultsBody, options?: RawAxiosRequestConfig) {
+        return ResultsApiFp(this.configuration).resultsPost(userResultsBody, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

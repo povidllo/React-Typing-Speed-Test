@@ -5,10 +5,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **string** |  | [optional] [default to undefined]
-**content** | **string** |  | [optional] [default to undefined]
-**language** | [**TextLanguage**](TextLanguage.md) |  | [optional] [default to undefined]
-**lengthType** | [**TextLengthType**](TextLengthType.md) |  | [optional] [default to undefined]
+**textId** | **number** |  | [default to undefined]
+**content** | **string** |  | [default to undefined]
+**language** | [**TextLanguage**](TextLanguage.md) |  | [default to undefined]
+**lengthType** | [**TextLengthType**](TextLengthType.md) |  | [default to undefined]
 
 ## Example
 
@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 import { Text } from './api';
 
 const instance: Text = {
-    id,
+    textId,
     content,
     language,
     lengthType,

@@ -1,5 +1,5 @@
 export type {
   AuthBody,
   AuthResponse,
-  AuthError,
+  ErrorResponse,
 } from "@/shared/api/generated/api";
