@@ -59,8 +59,6 @@ export const setUserResults = async (
   userId: number,
   results: UserResultsBody,
 ) => {
-  console.log("set");
-
   const response = await pool.query(
     `INSERT INTO results 
       (user_id, text_id, cpm, wpm, accuracy, errors, type_time)
@@ -77,7 +75,6 @@ export const setUserResults = async (
     ],
   );
 
-  console.log("set2");
   const resultsId: number = response.rows[0].result_id;
 
   const userResults = getUserResultsWithResultId(userId, resultsId);
@@ -131,4 +128,56 @@ export const getUserResultsWithResultId = async (
   };
 
   return userResult;
+};
+
+export const getBestResultsBy = async (
+  userId: number,
+  by: "cpm" | "wpm"
+) => {
+  const orderColumn = by === "cpm" ? "r.cpm" : "r.wpm";
+
+  const response = await pool.query<ResponseType>(
+    `SELECT 
+      r.result_id as "resultId",
+      r.user_id as "userId", 
+      r.text_id as "textId", 
+      r.cpm, 
+      r.wpm, 
+      r.accuracy, 
+      r.errors, 
+      r.type_time as "time", 
+      t.text_content as "content",
+      t.text_language as "language",
+      t.text_length_type as "lengthType"
+   FROM results r
+   JOIN texts t ON t.text_id = r.text_id
+   WHERE r.user_id = $1
+   ORDER BY ${orderColumn} DESC
+   LIMIT 1`,
+    [userId],
+  );
+
+  const row = response.rows[0];
+
+  if (!row) {
+    throw new Error(
+      `Не удалось получить лучшие результаты по ${by} пользователя с userId = ${userId}`
+    );
+  }
+
+  return {
+    userId: row.userId,
+    resultId: row.resultId,
+    cpm: row.cpm,
+    wpm: row.wpm,
+    accuracy: row.accuracy,
+    errors: row.errors,
+    time: row.time,
+    text: {
+      textId: row.textId,
+      content: row.content,
+      language: row.language,
+      lengthType: row.lengthType,
+    },
+  };
 };

@@ -21,3 +21,13 @@ export type PostResults401Response =
 export type PostResultsResponsesType =
   | PostResults201Response
   | PostResults401Response;
+
+export type GetResultsBestResponses =
+  paths["/results/best"]["get"]["responses"];
+export type GetResultsBest200Response =
+  GetResultsBestResponses["200"]["content"]["application/json"];
+export type GetResultsBest401Response =
+  GetResultsBestResponses["401"]["content"]["application/json"];
+export type GetResultsBestResponsesType =
+  | GetResultsBest200Response
+  | GetResultsBest401Response;
