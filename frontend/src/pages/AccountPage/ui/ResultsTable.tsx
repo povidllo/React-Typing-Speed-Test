@@ -1,4 +1,5 @@
 import type { UserResults } from "@/entity/Results";
+import clsx from "clsx";
 
 interface ResultsTableProps {
   results: UserResults[];
@@ -6,31 +7,48 @@ interface ResultsTableProps {
 
 export const ResultsTable = ({ results }: ResultsTableProps) => {
   return (
-    <table>
-      <thead>
-        <tr>
-          <th className="text-(--sub-color) text-left">cpm</th>
-          <th className="text-(--sub-color) text-left">wpm</th>
-          <th className="text-(--sub-color) text-left">accuracy</th>
-          <th className="text-(--sub-color) text-left">language</th>
-          <th className="text-(--sub-color) text-left">type</th>
-        </tr>
-      </thead>
-      <tbody>
-        {results.map((el) => (
-          <tr key={el.resultId}>
-            <th className="text-(--text-color) text-left">{el.cpm}</th>
-            <th className="text-(--text-color) text-left">{el.wpm}</th>
-            <th className="text-(--text-color) text-left">{el.accuracy}%</th>
-            <th className="text-(--text-color) text-left">
-              {el.text.language}
-            </th>
-            <th className="text-(--text-color) text-left">
-              {el.text.lengthType}
-            </th>
+    <div className="overflow-x-auto rounded-xl">
+      <table className="w-full border-collapse">
+        <thead className="bg-(--bg-color)">
+          <tr>
+            <th className="px-4 py-3 text-left text-(--sub-color)">cpm</th>
+
+            <th className="px-4 py-3 text-left text-(--sub-color)">wpm</th>
+
+            <th className="px-4 py-3 text-left text-(--sub-color)">accuracy</th>
+
+            <th className="px-4 py-3 text-left text-(--sub-color)">language</th>
+
+            <th className="px-4 py-3 text-left text-(--sub-color)">type</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+
+        <tbody>
+          {results.map((el, index) => (
+            <tr
+              key={el.resultId}
+              className={clsx(
+                "transition-colors",
+                index % 2 === 0 && "bg-(--color-sub-alt)",
+              )}
+            >
+              <td className="px-4 py-3 text-(--text-color)">{el.cpm}</td>
+
+              <td className="px-4 py-3 text-(--text-color)">{el.wpm}</td>
+
+              <td className="px-4 py-3 text-(--text-color)">{el.accuracy}%</td>
+
+              <td className="px-4 py-3 text-(--text-color)">
+                {el.text.language}
+              </td>
+
+              <td className="px-4 py-3 text-(--text-color)">
+                {el.text.lengthType}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
