@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import {
+  GetResultsBestResponsesType,
   GetResultsQueries,
   GetResultsResponsesType,
   PostResultsResponsesType,
@@ -7,7 +8,11 @@ import {
   UserResultsBody,
 } from "./results.types";
 import { AuthRequest } from "@/auth/auth.types";
-import { getUserResults, setUserResults } from "./results.service";
+import {
+  getBestResultsBy,
+  getUserResults,
+  setUserResults,
+} from "./results.service";
 
 export const getResults = async (
   req: AuthRequest<{}, any, any, GetResultsQueries>,
@@ -45,6 +50,22 @@ export const postResults = async (
     );
 
     return res.status(201).json(returnedUserResults);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: "Internal error" });
+  }
+};
+
+export const getBestResults = async (
+  req: AuthRequest<{}, any, any, { by: "cpm" | "wpm" }>,
+  res: Response<GetResultsBestResponsesType>,
+) => {
+  const user = req.user!;
+  const { by } = req.query;
+  try {
+    const result: UserResults = await getBestResultsBy(user.userId, by);
+
+    return res.status(200).json(result);
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: "Internal error" });
