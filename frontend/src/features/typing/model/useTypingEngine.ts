@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { TIME, useTypingTimer } from "./useTypingTimer";
 
 interface UseTypingEngineProps {
@@ -11,8 +11,10 @@ export const useTypingEngine = ({ chars, content }: UseTypingEngineProps) => {
   const enteredTextIndex = enteredText.length;
   const contentLength = content.length;
 
-  const generalTyposCount = useRef<number>(0);
-  const timeSpent = useRef<number | null>(null);
+  // const generalTyposCount = useRef<number>(0);
+  // const timeSpent = useRef<number | null>(null);
+  const [generalTyposCount, setGeneralTyposCount] = useState(0);
+  const [timeSpent, setTimeSpent] = useState<number | null>(null);
 
   const currentTyposCount = useMemo(() => {
     let errors = 0;
@@ -42,7 +44,8 @@ export const useTypingEngine = ({ chars, content }: UseTypingEngineProps) => {
       time === 0
     ) {
       setIsFinished(true);
-      timeSpent.current = TIME - time;
+      // timeSpent.current = TIME - time;
+      setTimeSpent(TIME - time);
       stop();
     }
   }, [content, enteredText, time]);
@@ -68,7 +71,8 @@ export const useTypingEngine = ({ chars, content }: UseTypingEngineProps) => {
       value.length > enteredText.length &&
       value[value.length - 1] !== content[value.length - 1]
     ) {
-      generalTyposCount.current++;
+      // generalTyposCount.current++;
+      setGeneralTyposCount((prev) => prev + 1);
     }
 
     if (!isRunning) {
@@ -92,9 +96,11 @@ export const useTypingEngine = ({ chars, content }: UseTypingEngineProps) => {
 
   const resetTyping = () => {
     setIsFinished(false);
-    timeSpent.current = null;
+    // timeSpent.current = null;
+    // generalTyposCount.current = 0;
+    setGeneralTyposCount(0);
+    setTimeSpent(null);
     reset();
-    generalTyposCount.current = 0;
     setEnteredText("");
   };
 
@@ -107,7 +113,9 @@ export const useTypingEngine = ({ chars, content }: UseTypingEngineProps) => {
     enteredTextIndex,
     isFinished,
     resetTyping,
-    generalTyposCount: generalTyposCount.current,
-    timeSpent: timeSpent.current,
+    // generalTyposCount: generalTyposCount.current,
+    // timeSpent: timeSpent.current,
+    generalTyposCount,
+    timeSpent,
   };
 };

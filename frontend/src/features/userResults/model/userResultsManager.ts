@@ -6,11 +6,11 @@ import {
 import { useGetBestUserResults } from "@/entity/Results/model/useGetBestUserResults";
 import { useEffect, useState } from "react";
 
-export const userResultsManager = (
+export const useUserResultsManager = (
   initialLength: number = 10,
   bestResultsBy: ResultsBestGetByEnum = "cpm",
 ) => {
-  const [length, _setLength] = useState<number>(initialLength);
+  const [length] = useState<number>(initialLength);
   const [offset, setOffset] = useState<number>(0);
   const [results, setResults] = useState<UserResults[] | null>(null);
   const {
