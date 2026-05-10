@@ -1,1 +1,5 @@
-export type { UserResults, UserResultsBody,  } from "@/shared/api/generated";
+export type {
+  UserResults,
+  UserResultsBody,
+  ResultsBestGetByEnum,
+} from "@/shared/api/generated";
