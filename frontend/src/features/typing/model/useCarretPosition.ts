@@ -24,7 +24,7 @@ export const useCarretPosition = ({
   const { windowSize } = useScreenResize();
 
   useEffect(() => {
-    setCarretСoordinates((_prev) => {
+    setCarretСoordinates(() => {
       const charRef = charRefs.current[index];
       const charRect = charRef?.getBoundingClientRect();
       const containerRect = containerRef.current?.getBoundingClientRect();

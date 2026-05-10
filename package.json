@@ -5,15 +5,15 @@
   "private": true,
   "workspaces": [
     "frontend",
-    "backend"
+    "server"
   ],
   "scripts": {
-    "dev": "run-p dev:frontend dev:backend",
+    "dev": "run-p dev:frontend dev:server",
     "dev:frontend": "npm run dev --workspace frontend",
-    "dev:backend": "npm run dev --workspace backend",
-    "openapigen": "run-p openapigen:frontend openapigen:backend",
+    "dev:server": "npm run dev --workspace server",
+    "openapigen": "run-p openapigen:frontend openapigen:server",
     "openapigen:frontend": "npm run openapigen --workspace frontend",
-    "openapigen:backend": "npm run openapigen --workspace backend",
+    "openapigen:server": "npm run openapigen --workspace server",
     "docker": "docker compose up --build -d",
     "docker-down": "docker compose down",
     "docker-drop": "docker compose down -v",

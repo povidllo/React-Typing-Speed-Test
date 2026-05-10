@@ -23,7 +23,7 @@ export const TextPanel = ({
 }: TextPanelProps) => {
   const [inputFocused, setInputFocused] = useState<boolean>(true);
 
-  const chars = useMemo(() => Array.from(content), [content]);
+  // const chars = useMemo(() => Array.from(content), [content]);
   const words = useMemo(
     () => content.split(/(\s)/).map((word) => Array.from(word)),
     [content],
@@ -32,13 +32,13 @@ export const TextPanel = ({
   const inputRef = useRef<HTMLInputElement | null>(null);
   const charRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const refsMap = useRef<((el: HTMLSpanElement | null) => void)[]>([]);
+  // const refsMap = useRef<((el: HTMLSpanElement | null) => void)[]>([]);
 
-  if (refsMap.current.length !== chars.length) {
-    refsMap.current = chars.map((_, i) => (el: HTMLSpanElement | null) => {
-      charRefs.current[i] = el;
-    });
-  }
+  // if (refsMap.current.length !== chars.length) {
+  //   refsMap.current = chars.map((_, i) => (el: HTMLSpanElement | null) => {
+  //     charRefs.current[i] = el;
+  //   });
+  // }
 
   const { carretСoordinates, carretSize } = useCarretPosition({
     charRefs,
@@ -80,7 +80,10 @@ export const TextPanel = ({
                 const currentIdx = globalIndex++;
                 return (
                   <Char
-                    ref={refsMap.current[currentIdx]}
+                    // ref={refsMap.current[currentIdx]}
+                    ref={(el) => {
+                      charRefs.current[currentIdx] = el;
+                    }}
                     key={currentIdx}
                     char={char}
                     state={charState(currentIdx)}

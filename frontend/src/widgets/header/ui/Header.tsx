@@ -19,7 +19,7 @@ export const Header = ({ user }: HeaderProps) => {
         <Button
           className="p-2 flex items-center gap-2"
           onClick={() => {
-            user ? navigate("/account") : navigate("/auth");
+            navigate(user ? "/account" : "/auth");
           }}
         >
           <UserRound />

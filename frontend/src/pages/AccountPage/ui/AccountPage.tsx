@@ -1,6 +1,6 @@
 import { Loader } from "lucide-react";
 import { ResultsTable } from "./ResultsTable";
-import { userResultsManager } from "@/features/userResults";
+import { useUserResultsManager } from "@/features/userResults";
 import { Button } from "@/shared/ui";
 import { BestResults } from "./BestResults";
 
@@ -11,9 +11,8 @@ export const AccountPage = () => {
     userResultsError,
     bestUserResults,
     bestUserResultsError,
-    bestUserResultsLoading,
     loadMore,
-  } = userResultsManager(10);
+  } = useUserResultsManager(10);
 
   if (!userResults || !bestUserResults) {
     return (
@@ -33,7 +32,7 @@ export const AccountPage = () => {
   return (
     <div className="flex flex-col items-center mb-10">
       <div className="max-w-5xl flex flex-col gap-4 w-full px-10">
-        <BestResults bestUserResults={bestUserResults}/>
+        <BestResults bestUserResults={bestUserResults} />
         <div className="flex flex-col gap-2 w-full">
           <ResultsTable results={userResults} />
           <Button
