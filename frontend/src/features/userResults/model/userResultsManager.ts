@@ -1,26 +1,51 @@
-import { useGetUserResults, type UserResults } from "@/entity/Results";
+import {
+  useGetUserResults,
+  type ResultsBestGetByEnum,
+  type UserResults,
+} from "@/entity/Results";
+import { useGetBestUserResults } from "@/entity/Results/model/useGetBestUserResults";
 import { useEffect, useState } from "react";
 
-export const userResultsManager = (initialLength: number = 10) => {
+export const userResultsManager = (
+  initialLength: number = 10,
+  bestResultsBy: ResultsBestGetByEnum = "cpm",
+) => {
   const [length, _setLength] = useState<number>(initialLength);
   const [offset, setOffset] = useState<number>(0);
   const [results, setResults] = useState<UserResults[] | null>(null);
-  const { data, isLoading, isError } = useGetUserResults(length, offset);
+  const {
+    data: userResults,
+    isLoading: userResultsLoading,
+    isError: userResultsError,
+  } = useGetUserResults(length, offset);
+  const {
+    data: bestUserResults,
+    isLoading: bestUserResultsLoading,
+    isError: bestUserResultsError,
+  } = useGetBestUserResults(bestResultsBy);
 
   useEffect(() => {
-    if (!data) return;
+    if (!userResults) return;
 
     setResults((prev) => {
       if (offset === 0) {
-        return data;
+        return userResults;
       }
 
-      return [...(prev ?? []), ...data];
+      return [...(prev ?? []), ...userResults];
     });
-  }, [data, offset]);
+  }, [userResults, offset]);
 
   const loadMore = () => {
     setOffset((prev) => prev + length);
   };
-  return { results, isLoading, isError, loadMore };
+  return {
+    userResults: results,
+    userResultsLoading,
+    userResultsError,
+    bestUserResults,
+    bestUserResultsLoading,
+    bestUserResultsError,
+    loadMore,
+  };
 };

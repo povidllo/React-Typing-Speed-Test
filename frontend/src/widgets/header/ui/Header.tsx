@@ -13,7 +13,7 @@ export const Header = ({ user }: HeaderProps) => {
   return (
     <header className="w-full h-20 bg-background/95 backdrop-blur py-4 px-10 flex justify-between">
       <Button className="hover:bg-transparent" onClick={() => navigate("/")}>
-        <KeyboardSVG className="h-full text-primary" />
+        <KeyboardSVG className="h-full text-amber-300" />
       </Button>
       <div className="flex gap-2">
         <Button

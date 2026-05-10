@@ -17,11 +17,11 @@ export const TypingResults = ({
     <div className="flex flex-row gap-8">
       <div className="flex flex-col flex-1 gap-2 text-3xl justify-between">
         <div className="flex justify-between gap-1">
-          <div className="text-(--sub-color)">CPM:</div>{" "}
+          <div className="text-(--sub-color) font-bold">CPM:</div>{" "}
           <div className="text-(--main-color) font-bold">{cpm}</div>
         </div>
         <div className="flex justify-between">
-          <span className="text-(--sub-color)">WPM:</span>{" "}
+          <span className="text-(--sub-color) font-bold">WPM:</span>{" "}
           <span className="text-(--main-color) font-bold">{wpm}</span>
         </div>
       </div>

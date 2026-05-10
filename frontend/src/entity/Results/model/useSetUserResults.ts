@@ -2,6 +2,7 @@ import { resultsApi } from "@/shared/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { UserResultsBody } from "./types";
 import { getUseResultsQueryKeys } from "../lib/getUseResultsQueryKeys";
+import { getUseBestResultsQueryKeys } from "../lib/getUseBestResultsQueryKeys";
 
 export const useSetUserResults = () => {
   const queryClient = useQueryClient();
@@ -14,6 +15,9 @@ export const useSetUserResults = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: getUseResultsQueryKeys(),
+      });
+      queryClient.invalidateQueries({
+        queryKey: getUseBestResultsQueryKeys(),
       });
     },
   });
